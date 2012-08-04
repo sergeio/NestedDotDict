@@ -2,7 +2,7 @@ from collections import defaultdict
 from copy import deepcopy
 
 
-class DotDefaultDict(defaultdict):
+class NestedDotDict(defaultdict):
 
     def __init__(self, _type=int):
 
@@ -29,14 +29,12 @@ class DotDefaultDict(defaultdict):
         return self
 
     def to_dict(self, ddict=None):
-        """Returns a deepcopy of `self`, casted to a dictionary."""
+        """Returns a copy of `self`, recursively casted to a dict."""
 
         def _to_dict_helper(ddict):
             copy_ddict = deepcopy(ddict)
             for key, value in copy_ddict.iteritems():
-                # print type(value)
                 if type(value) == defaultdict:
-                    # print copy_ddict, key, value
                     copy_ddict[key] = _to_dict_helper(value)
             return dict(copy_ddict)
 

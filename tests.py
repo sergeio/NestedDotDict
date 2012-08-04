@@ -1,14 +1,14 @@
-from dot_default_dict import DotDefaultDict
+from dot_default_dict import NestedDotDict
 
 
 def test_simple():
-    dd = DotDefaultDict()
+    dd = NestedDotDict()
     dd['key'] = 0
     assert dd.to_dict() == {'key': 0}
 
 
 def test_field_creation():
-    dd = DotDefaultDict()
+    dd = NestedDotDict()
     dd['s'] = 1
     dd['a.b'] = 2
     dd['a.c'] = 3
@@ -16,13 +16,13 @@ def test_field_creation():
 
 
 def test_more_nesting():
-    dd = DotDefaultDict()
+    dd = NestedDotDict()
     dd['a.b.c.d.e.f'] = 1
     assert dd.to_dict() == {'a': {'b': {'c': {'d': {'e': {'f': 1}}}}}}
 
 
 def test_longer_key_names():
-    dd = DotDefaultDict()
+    dd = NestedDotDict()
     dd['specialization.is.for.insects'] = 1
     assert dd.to_dict() == {'specialization': {'is': {'for': {'insects': 1}}}}
 
@@ -30,7 +30,7 @@ def test_longer_key_names():
 if __name__ == '__main__':
     all_passed = True
     for key, value in locals().items():
-        if key.startswith('test'):
+        if key.startswith('test_'):
             try:
                 value()
                 print '.',
