@@ -1,4 +1,4 @@
-from dot_default_dict import NestedDotDict
+from nested_dot_dict import NestedDotDict
 
 
 def test_simple():
@@ -25,6 +25,15 @@ def test_longer_key_names():
     nd = NestedDotDict()
     nd['specialization.is.for.insects'] = 1
     assert nd.to_dict() == {'specialization': {'is': {'for': {'insects': 1}}}}
+
+
+def test_getting():
+    nd = NestedDotDict()
+    nd['a.b.c'] = 1
+    nd['a.b.d'] = 2
+    assert nd['a.b.c'] == 1
+    assert nd['a.b.d'] == 2
+    print nd['a.b']
 
 
 if __name__ == '__main__':
