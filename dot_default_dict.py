@@ -2,7 +2,7 @@ from collections import defaultdict
 from copy import deepcopy
 
 
-class DotDefaultDict():
+class DotDefaultDict(defaultdict):
 
     def __init__(self, _type=int):
 
@@ -10,7 +10,7 @@ class DotDefaultDict():
             return defaultdict(nested_ddict)
 
         self._type = _type
-        self.ddict = nested_ddict()
+        defaultdict.__init__(self, nested_ddict)
 
     def __setitem__(self, key, value):
         self._set(key, value)
@@ -18,27 +18,26 @@ class DotDefaultDict():
     def _set(self, key, value, subdict=None):
 
         if subdict is None:
-            subdict = self.ddict
+            subdict = self
 
         keys = key.split('.', 1)
         if len(keys) == 1:
-            subdict[key] = value
+            defaultdict.__setitem__(subdict, key, value)
         else:
             self._set(keys[1], value, subdict=subdict[keys[0]])
 
-        return self.ddict
-
-    def __str__(self):
-        return str(self.ddict)
+        return self
 
     def to_dict(self, ddict=None):
-        """Returns a deepcopy of `self.ddict`, casted to a dictionary."""
+        """Returns a deepcopy of `self`, casted to a dictionary."""
 
         def _to_dict_helper(ddict):
             copy_ddict = deepcopy(ddict)
             for key, value in copy_ddict.iteritems():
-                if type(value) == type(self.ddict):
+                # print type(value)
+                if type(value) == defaultdict:
+                    # print copy_ddict, key, value
                     copy_ddict[key] = _to_dict_helper(value)
             return dict(copy_ddict)
 
-        return _to_dict_helper(self.ddict)
+        return _to_dict_helper(self)

@@ -1,6 +1,12 @@
 from dot_default_dict import DotDefaultDict
 
 
+def test_simple():
+    dd = DotDefaultDict()
+    dd['key'] = 0
+    assert dd.to_dict() == {'key': 0}
+
+
 def test_field_creation():
     dd = DotDefaultDict()
     dd['s'] = 1
