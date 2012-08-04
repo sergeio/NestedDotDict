@@ -1,3 +1,5 @@
+import sys
+
 from nested_dot_dict import NestedDotDict
 
 
@@ -36,18 +38,13 @@ def test_getting():
 
 
 if __name__ == '__main__':
-    all_passed = True
     for key, value in locals().items():
         if key.startswith('test_'):
             try:
                 value()
                 print '.',
             except Exception as e:
-                print 'E',
-                print e
-                all_passed = False
+                print 'E\n', e
+                sys.exit(1)
 
-    if all_passed:
-        print '\nSuccess!'
-    else:
-        print '\nFAIL!'
+    print '\nSuccess!'
