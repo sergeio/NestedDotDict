@@ -33,7 +33,6 @@ def test_getting():
     nd['a.b.d'] = 2
     assert nd['a.b.c'] == 1
     assert nd['a.b.d'] == 2
-    print nd['a.b']
 
 
 if __name__ == '__main__':

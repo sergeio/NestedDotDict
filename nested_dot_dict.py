@@ -13,28 +13,27 @@ class NestedDotDict(defaultdict):
         defaultdict.__init__(self, nested_ddict)
 
     def __getitem__(self, key):
-        return self._get(key, subdict=self)
+        def _get(key, subdict=None):
+            keys = key.split('.', 1)
+            if len(keys) == 1:
+                return defaultdict.__getitem__(subdict, key)
+            return _get(keys[1], subdict=subdict[keys[0]])
 
-    def _get(self, key, subdict=None):
-        keys = key.split('.', 1)
-        if len(keys) == 1:
-            return defaultdict.__getitem__(subdict, key)
-        return self._get(keys[1], subdict=subdict[keys[0]])
+        return _get(key, subdict=self)
 
     def __setitem__(self, key, value):
-        self._set(key, value)
+        def _set(key, value, subdict=None):
 
-    def _set(self, key, value, subdict=None):
+            if subdict is None:
+                subdict = self
 
-        if subdict is None:
-            subdict = self
+            keys = key.split('.', 1)
+            if len(keys) == 1:
+                defaultdict.__setitem__(subdict, key, value)
+            else:
+                _set(keys[1], value, subdict=subdict[keys[0]])
 
-        keys = key.split('.', 1)
-        if len(keys) == 1:
-            defaultdict.__setitem__(subdict, key, value)
-        else:
-            self._set(keys[1], value, subdict=subdict[keys[0]])
-
+        _set(key, value)
 
     def to_dict(self, ddict=None):
         """Returns a copy of `self`, recursively casted to a dict."""
