@@ -23,7 +23,7 @@ class DotDefaultDict():
         if len(keys) == 1:
             subdict[key] = value
         else:
-            self._set(keys[1], value, subdict=subdict[key[0]])
+            self._set(keys[1], value, subdict=subdict[keys[0]])
 
         return self.ddict
 
