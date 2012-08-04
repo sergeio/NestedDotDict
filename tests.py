@@ -28,8 +28,9 @@ if __name__ == '__main__':
             try:
                 value()
                 print '.',
-            except AssertionError:
+            except Exception as e:
                 print 'E',
+                print e
                 all_passed = False
 
     if all_passed:
