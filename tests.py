@@ -8,8 +8,10 @@ def test_field_creation():
 
     assert dd.to_dict() == {'s': 1, 'a': {'b': 2, 'c': 3}}
 
-def test_fail():
-    assert False
+def test_more_nesting():
+    dd = DotDefaultDict()
+    dd['a.b.c.d.e.f'] = 1
+    assert dd.to_dict() == {'a': {'b': {'c': {'d': {'e': {'f': 1}}}}}}
 
 
 if __name__ == '__main__':
@@ -23,8 +25,7 @@ if __name__ == '__main__':
                 print 'E',
                 all_passed = False
 
-    print
     if all_passed:
-        print 'Success!'
+        print '\nSuccess!'
     else:
-        print 'FAIL!'
+        print '\nFAIL!'

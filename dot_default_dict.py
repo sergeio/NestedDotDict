@@ -2,11 +2,14 @@ from collections import defaultdict
 from copy import deepcopy
 
 
+def nested_ddict():
+    return defaultdict(nested_ddict)
+
 class DotDefaultDict():
 
     def __init__(self, _type=int):
         self._type = _type
-        self.ddict = defaultdict(lambda: defaultdict(_type))
+        self.ddict = nested_ddict()
 
     def __setitem__(self, key, value):
         self._set(key, value)
