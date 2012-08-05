@@ -3,6 +3,7 @@ from copy import deepcopy
 
 
 class NestedDotDict(defaultdict):
+    """This dict lets you easily create and query a highly-nested structure."""
 
     def __init__(self, _type=int):
 
